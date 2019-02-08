@@ -11,9 +11,13 @@ Norm = Normalizer()
 Random_Forest = RandomForestClassifier(250,random_state = 42)
 SVM = SVC(random_state = 42)
 
+# Change these values depending on the specifics of the data
+subspace_dimension = 12
+align = True
+
 # Normalise the data
-X_S = Normalizer.fit_transform(X_S)
-X_T = Normalizer.fit_transform(X_T)
+X_S = Norm.fit_transform(X_S)
+X_T = Norm.fit_transform(X_T)
 
 # Create the PCA
 pca_train = PCA(n_components = subspace_dimension, random_state = 42)
@@ -25,7 +29,7 @@ P_T = np.transpose(pca_test.fit(X_T).components_)
 
 # In both cases:reduce source to subspace and reduce target to subspace
 # If using SA then rotate target data into source allignment
-if allign == True:
+if align == True:
 	X_S_A = np.matmul(X_S, P_S)
 	X_T_A = np.matmul(X_T,np.matmul(P_T, np.matmul(np.transpose(P_T), P_S)))
 else:
